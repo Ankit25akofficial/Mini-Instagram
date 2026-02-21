@@ -25,8 +25,6 @@ const isLoggedIn = async (req, res, next) => {
         return res.redirect('/login');
     }
 };
-
-// Soft check – doesn't redirect, just sets currentUser if token exists
 const setCurrentUser = async (req, res, next) => {
     try {
         const token = req.cookies.token;
