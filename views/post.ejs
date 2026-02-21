@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>
+        <%= post.caption.substring(0,40) %> | MiniGram
+    </title>
+    <link rel="stylesheet" href="/css/style.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet" />
+</head>
+
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="/" class="nav-brand"><span class="brand-icon">M</span><span class="brand-text">MiniGram</span></a>
+            <ul class="nav-links">
+                <% if (currentUser) { %>
+                    <li><a href="/" class="nav-link">Feed</a></li>
+                    <li><a href="/upload" class="nav-link nav-btn">+ New Post</a></li>
+                    <li class="nav-user"><span class="nav-username">@<%= currentUser.username %></span><span
+                            class="post-badge">
+                            <%= currentUser.postCount %>/10
+                        </span></li>
+                    <li><a href="/logout" class="nav-link nav-logout">Logout</a></li>
+                    <% } else { %>
+                        <li><a href="/login" class="nav-link">Login</a></li>
+                        <li><a href="/register" class="nav-link nav-btn">Register</a></li>
+                        <% } %>
+            </ul>
+        </div>
+    </nav>
+    <div class="flash-container">
+        <% if (success && success.length> 0) { %><% success.forEach(msg=> { %><div class="flash flash-success">
+                    <%= msg %>
+                </div>
+                <% }) %>
+                    <% } %>
+                        <% if (error && error.length> 0) { %><% error.forEach(msg=> { %><div class="flash flash-error">
+                                    <%= msg %>
+                                </div>
+                                <% }) %>
+                                    <% } %>
+    </div>
+    <main class="main-content">
+        <div class="single-post-wrapper">
+            <a href="/" class="back-link">&larr; Back to Feed</a>
+            <div class="single-post-card">
+                <div class="single-post-img-wrapper">
+                    <img src="<%= post.imagePath %>" alt="<%= post.caption %>" class="single-post-img" />
+                </div>
+                <div class="single-post-info">
+                    <div class="post-author">
+                        <div class="author-avatar">
+                            <%= post.user.username.charAt(0).toUpperCase() %>
+                        </div>
+                        <div>
+                            <p class="author-name">@<%= post.user.username %>
+                            </p>
+                            <p class="post-date">
+                                <%= new Date(post.createdAt).toLocaleDateString('en-IN', {weekday:'long',
+                                    year:'numeric', month:'long', day:'numeric'}) %>
+                            </p>
+                        </div>
+                    </div>
+
+                    <p class="single-caption">
+                        <%= post.caption %>
+                    </p>
+
+                    <% if (currentUser && post.user._id.toString()===currentUser._id.toString()) { %>
+                        <div class="post-actions">
+                            <a href="/post/<%= post._id %>/edit" class="btn btn-outline">Edit Caption</a>
+                            <form action="/post/<%= post._id %>/delete" method="POST"
+                                onsubmit="return confirm('Delete this post permanently?')">
+                                <button type="submit" class="btn btn-danger">Delete Post</button>
+                            </form>
+                        </div>
+                        <% } %>
+                </div>
+            </div>
+        </div>
+    </main>
+    <footer class="footer">
+        <p>MiniGram &copy; 2024</p>
+    </footer>
+    <script>setTimeout(() => { document.querySelectorAll('.flash').forEach(el => { el.style.animation = 'fadeOut 0.5s ease forwards'; setTimeout(() => el.remove(), 500) }) }, 4000)</script>
+</body>
+
+</html>

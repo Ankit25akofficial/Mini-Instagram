@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Edit Post </title>
+    <link rel="stylesheet" href="/css/style.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet" />
+</head>
+
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="/" class="nav-brand"><span class="brand-icon">M</span><span class="brand-text">Mini Instagram</span></a>
+            <ul class="nav-links">
+                <li><a href="/" class="nav-link">Feed</a></li>
+                <li><a href="/upload" class="nav-link nav-btn">+ New Post</a></li>
+                <li class="nav-user"><span class="nav-username">@<%= currentUser.username %></span><span
+                        class="post-badge">
+                        <%= currentUser.postCount %>/10
+                    </span></li>
+                <li><a href="/logout" class="nav-link nav-logout">Logout</a></li>
+            </ul>
+        </div>
+    </nav>
+    <div class="flash-container">
+        <% if (success && success.length> 0) { %><% success.forEach(msg=> { %><div class="flash flash-success">
+                    <%= msg %>
+                </div>
+                <% }) %>
+                    <% } %>
+                        <% if (error && error.length> 0) { %><% error.forEach(msg=> { %><div class="flash flash-error">
+                                    <%= msg %>
+                                </div>
+                                <% }) %>
+                                    <% } %>
+    </div>
+    <main class="main-content">
+        <div class="upload-wrapper">
+            <div class="upload-card">
+                <h1 class="upload-title">Edit Post</h1>
+                <div class="edit-preview">
+                    <img src="<%= post.imagePath %>" alt="Post image" class="edit-preview-img" />
+                </div>
+                <form class="upload-form" action="/post/<%= post._id %>/edit" method="POST">
+                    <div class="form-group">
+                        <label for="caption">Caption</label>
+                        <textarea id="caption" name="caption" required maxlength="300"
+                            rows="4"><%= post.caption %></textarea>
+                        <span class="char-count" id="charCount">
+                            <%= post.caption.length %>/300
+                        </span>
+                    </div>
+                    <div class="form-row">
+                        <a href="/post/<%= post._id %>" class="btn btn-outline">Cancel</a>
+                        <button type="submit" class="btn btn-primary">Save Changes</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </main>
+    <footer class="footer">
+        <p>MiniGram &copy; </p>
+    </footer>
+    <script>
+        setTimeout(() => { document.querySelectorAll('.flash').forEach(el => { el.style.animation = 'fadeOut 0.5s ease forwards'; setTimeout(() => el.remove(), 500) }) }, 4000);
+        const captionArea = document.getElementById('caption');
+        const charCount = document.getElementById('charCount');
+        captionArea.addEventListener('input', () => { charCount.textContent = captionArea.value.length + '/300'; });
+    </script>
+</body>
+
+</html>

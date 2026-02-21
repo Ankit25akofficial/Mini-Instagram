@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>
+        <%= title %> | Mini Instagram
+    </title>
+    <link rel="stylesheet" href="/css/style.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet" />
+</head>
+
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="/" class="nav-brand"><span class="brand-icon">M</span><span class="brand-text">MiniGram</span></a>
+            <ul class="nav-links">
+                <li><a href="/login" class="nav-link">Login</a></li>
+                <li><a href="/register" class="nav-link nav-btn">Register</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="flash-container">
+        <% if (success && success.length> 0) { %>
+            <% success.forEach(function(msg) { %>
+                <div class="flash flash-success">
+                    <%= msg %>
+                </div>
+                <% }) %>
+                    <% } %>
+                        <% if (error && error.length> 0) { %>
+                            <% error.forEach(function(msg) { %>
+                                <div class="flash flash-error">
+                                    <%= msg %>
+                                </div>
+                                <% }) %>
+                                    <% } %>
+    </div>
+
+    <main class="main-content">
+        <div class="auth-wrapper">
+            <div class="auth-card">
+                <div class="auth-header">
+                    <div class="auth-logo">M</div>
+                    <h1 class="auth-title">Join MiniGram</h1>
+                    <p class="auth-subtitle">Share your world, one photo at a time.</p>
+                </div>
+                <form class="auth-form" action="/register" method="POST" autocomplete="off">
+                    <div class="form-group">
+                        <label for="username">Username</label>
+                        <input type="text" id="username" name="username" placeholder="NAME" required minlength="3"
+                            maxlength="20" />
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" name="email" placeholder="Email" required />
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <input type="password" id="password" name="password" placeholder="Password" required
+                            minlength="6" />
+                    </div>
+                    <div class="form-group">
+                        <label for="confirmPassword">Confirm Password</label>
+                        <input type="password" id="confirmPassword" name="confirmPassword"
+                            placeholder="Repeat your password" required />
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-full">Create Account</button>
+                </form>
+                <p class="auth-footer-text">Already have an account? <a href="/login">Log in</a></p>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <p>Mini Instagram &copy;</p>
+    </footer>
+    <script>
+        setTimeout(function () {
+            document.querySelectorAll('.flash').forEach(function (el) {
+                el.style.animation = 'fadeOut 0.5s ease forwards';
+                setTimeout(function () { el.remove(); }, 500);
+            });
+        }, 4000);
+    </script>
+</body>
+
+</html>

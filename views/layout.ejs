@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>
+        <%= title %> | MiniGram
+    </title>
+    <meta name="description" content="MiniGram – Share your moments with the world." />
+    <link rel="stylesheet" href="/css/style.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet" />
+</head>
+
+<body>
+
+    <!-- ── Navbar ─────────────────────────────────────────────── -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="/" class="nav-brand">
+                <span class="brand-icon">M</span>
+                <span class="brand-text">MiniGram</span>
+            </a>
+            <ul class="nav-links">
+                <% if (currentUser) { %>
+                    <li><a href="/" class="nav-link">Feed</a></li>
+                    <li><a href="/upload" class="nav-link nav-btn">+ New Post</a></li>
+                    <li class="nav-user">
+                        <span class="nav-username">@<%= currentUser.username %></span>
+                        <span class="post-badge">
+                            <%= currentUser.postCount %>/10 posts
+                        </span>
+                    </li>
+                    <li><a href="/logout" class="nav-link nav-logout">Logout</a></li>
+                    <% } else { %>
+                        <li><a href="/login" class="nav-link">Login</a></li>
+                        <li><a href="/register" class="nav-link nav-btn">Register</a></li>
+                        <% } %>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- ── Flash Messages ─────────────────────────────────────── -->
+    <div class="flash-container">
+        <% if (success && success.length> 0) { %>
+            <% success.forEach(msg=> { %>
+                <div class="flash flash-success">
+                    <%= msg %>
+                </div>
+                <% }) %>
+                    <% } %>
+                        <% if (error && error.length> 0) { %>
+                            <% error.forEach(msg=> { %>
+                                <div class="flash flash-error">
+                                    <%= msg %>
+                                </div>
+                                <% }) %>
+                                    <% } %>
+    </div>
+
+    <!-- ── Page Content ───────────────────────────────────────── -->
+    <main class="main-content">
+        <%- body %>
+    </main>
+
+    <!-- ── Footer ────────────────────────────────────────────── -->
+    <footer class="footer">
+        <p>MiniGram &copy; 2024 &mdash; Share your moments</p>
+    </footer>
+
+    <script>
+        // Auto-dismiss flash messages after 4 seconds
+        setTimeout(() => {
+            document.querySelectorAll('.flash').forEach(el => {
+                el.style.animation = 'fadeOut 0.5s ease forwards';
+                setTimeout(() => el.remove(), 500);
+            });
+        }, 4000);
+    </script>
+
+</body>
+
+</html>

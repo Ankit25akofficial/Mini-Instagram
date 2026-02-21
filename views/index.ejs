@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>
+        <%= title %> | Mini Instagram
+    </title>
+    <link rel="stylesheet" href="/css/style.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet" />
+</head>
+
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="/" class="nav-brand"><span class="brand-icon">M</span><span class="brand-text">MiniGram</span></a>
+            <ul class="nav-links">
+                <% if (currentUser) { %>
+                    <li><a href="/" class="nav-link">Feed</a></li>
+                    <li><a href="/upload" class="nav-link nav-btn">+ New Post</a></li>
+                    <li class="nav-user">
+                        <span class="nav-username">@<%= currentUser.username %></span>
+                        <span class="post-badge">
+                            <%= currentUser.postCount %>/10
+                        </span>
+                    </li>
+                    <li><a href="/logout" class="nav-link nav-logout">Logout</a></li>
+                    <% } else { %>
+                        <li><a href="/login" class="nav-link">Login</a></li>
+                        <li><a href="/register" class="nav-link nav-btn">Register</a></li>
+                        <% } %>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="flash-container">
+        <% if (success && success.length> 0) { %>
+            <% success.forEach(function(msg) { %>
+                <div class="flash flash-success">
+                    <%= msg %>
+                </div>
+                <% }) %>
+                    <% } %>
+                        <% if (error && error.length> 0) { %>
+                            <% error.forEach(function(msg) { %>
+                                <div class="flash flash-error">
+                                    <%= msg %>
+                                </div>
+                                <% }) %>
+                                    <% } %>
+    </div>
+
+    <main class="main-content">
+        <div class="ig-feed">
+
+            <% if (posts.length===0) { %>
+                <div class="empty-state">
+                    <div class="empty-icon">&#128247;</div>
+                    <h2>No posts yet</h2>
+                    <p>Start sharing photos with the world.</p>
+                    <% if (currentUser) { %>
+                        <a href="/upload" class="btn btn-primary">Upload First Post</a>
+                        <% } else { %>
+                            <a href="/register" class="btn btn-primary">Join MiniGram</a>
+                            <% } %>
+                </div>
+                <% } else { %>
+
+                    <% posts.forEach(function(post) { %>
+                        <div class="ig-post-card">
+
+                            <!-- Post Header -->
+                            <div class="ig-post-header">
+                                <div class="ig-avatar">
+                                    <%= post.user.username.charAt(0).toUpperCase() %>
+                                </div>
+                                <div class="ig-header-info">
+                                    <span class="ig-username">@<%= post.user.username %></span>
+                                    <span class="ig-date">
+                                        <%= new Date(post.createdAt).toLocaleDateString('en-IN', { day: 'numeric' ,
+                                            month: 'short' , year: 'numeric' }) %>
+                                    </span>
+                                </div>
+                                <% if (currentUser && post.user._id.toString()===currentUser._id.toString()) { %>
+                                    <a href="/post/<%= post._id %>" class="ig-post-menu" title="Manage post">&#8943;</a>
+                                    <% } %>
+                            </div>
+
+                            <!-- Post Image -->
+                            <a href="/post/<%= post._id %>" class="ig-post-image-link">
+                                <img src="<%= post.imagePath %>" alt="<%= post.caption %>" class="ig-post-image"
+                                    loading="lazy" />
+                            </a>
+
+                            <!-- Post Footer -->
+                            <div class="ig-post-footer">
+                                <p class="ig-caption">
+                                    <span class="ig-caption-user">@<%= post.user.username %></span>
+                                    <%= post.caption %>
+                                </p>
+                                <a href="/post/<%= post._id %>" class="ig-view-btn">View post &rarr;</a>
+                            </div>
+
+                        </div>
+                        <% }) %>
+
+                            <!-- Pagination -->
+                            <% if (totalPages> 1) { %>
+                                <div class="pagination">
+                                    <% if (currentPage> 1) { %>
+                                        <a href="/?page=<%= currentPage - 1 %>" class="page-btn">&larr; Prev</a>
+                                        <% } else { %>
+                                            <span class="page-btn disabled">&larr; Prev</span>
+                                            <% } %>
+
+                                                <div class="page-numbers">
+                                                    <% for (var i=1; i <=totalPages; i++) { %>
+                                                        <a href="/?page=<%= i %>"
+                                                            class="page-num <%= i === currentPage ? 'active' : '' %>">
+                                                            <%= i %>
+                                                        </a>
+                                                        <% } %>
+                                                </div>
+
+                                                <% if (currentPage < totalPages) { %>
+                                                    <a href="/?page=<%= currentPage + 1 %>" class="page-btn">Next
+                                                        &rarr;</a>
+                                                    <% } else { %>
+                                                        <span class="page-btn disabled">Next &rarr;</span>
+                                                        <% } %>
+                                </div>
+                                <% } %>
+
+                                    <% } %>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <p>MiniGram &copy; 2024 &mdash; Share your moments</p>
+    </footer>
+    <script>
+        setTimeout(function () {
+            document.querySelectorAll('.flash').forEach(function (el) {
+                el.style.animation = 'fadeOut 0.5s ease forwards';
+                setTimeout(function () { el.remove(); }, 500);
+            });
+        }, 4000);
+    </script>
+</body>
+
+</html>

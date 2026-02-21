@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>
+        <%= title %> | MiniGram
+    </title>
+    <link rel="stylesheet" href="/css/style.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet" />
+</head>
+
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="/" class="nav-brand"><span class="brand-icon">M</span><span class="brand-text">MiniGram</span></a>
+            <ul class="nav-links">
+                <li><a href="/login" class="nav-link">Login</a></li>
+                <li><a href="/register" class="nav-link nav-btn">Register</a></li>
+            </ul>
+        </div>
+    </nav>
+    <div class="flash-container">
+        <% if (success && success.length> 0) { %><% success.forEach(msg=> { %><div class="flash flash-success">
+                    <%= msg %>
+                </div>
+                <% }) %>
+                    <% } %>
+                        <% if (error && error.length> 0) { %><% error.forEach(msg=> { %><div class="flash flash-error">
+                                    <%= msg %>
+                                </div>
+                                <% }) %>
+                                    <% } %>
+    </div>
+    <main class="main-content">
+        <div class="auth-wrapper">
+            <div class="auth-card">
+                <div class="auth-header">
+                    <div class="auth-logo">M</div>
+                    <h1 class="auth-title">Welcome Back</h1>
+                    <p class="auth-subtitle">Login to see your photos.</p>
+                </div>
+                <form class="auth-form" action="/login" method="POST" autocomplete="off">
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" name="email" placeholder="you@example.com" required />
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <input type="password" id="password" name="password" placeholder="Your password" required />
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-full">Log In</button>
+                </form>
+                <p class="auth-footer-text">Don't have an account? <a href="/register">Sign up</a></p>
+            </div>
+        </div>
+    </main>
+    <footer class="footer">
+        <p>MiniGram &copy; 2024</p>
+    </footer>
+    <script>setTimeout(() => { document.querySelectorAll('.flash').forEach(el => { el.style.animation = 'fadeOut 0.5s ease forwards'; setTimeout(() => el.remove(), 500) }) }, 4000)</script>
+</body>
+
+</html>
