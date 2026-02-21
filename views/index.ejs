@@ -71,7 +71,6 @@
                     <% posts.forEach(function(post) { %>
                         <div class="ig-post-card">
 
-                            <!-- Post Header -->
                             <div class="ig-post-header">
                                 <div class="ig-avatar">
                                     <%= post.user.username.charAt(0).toUpperCase() %>
@@ -94,7 +93,6 @@
                                     loading="lazy" />
                             </a>
 
-                            <!-- Post Footer -->
                             <div class="ig-post-footer">
                                 <p class="ig-caption">
                                     <span class="ig-caption-user">@<%= post.user.username %></span>
@@ -106,7 +104,6 @@
                         </div>
                         <% }) %>
 
-                            <!-- Pagination -->
                             <% if (totalPages> 1) { %>
                                 <div class="pagination">
                                     <% if (currentPage> 1) { %>
