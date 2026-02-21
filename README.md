@@ -250,11 +250,21 @@ http://localhost:3000
 - Invalid file types rejected by Multer before saving
 
 ---
-
+<br>
+<br>
 <img width="1919" height="1012" alt="image" src="https://github.com/user-attachments/assets/ba72473b-9e16-4c71-ba99-4ada323bfa69" />
 
 <br>
-
+<br>
 <img width="1897" height="984" alt="image" src="https://github.com/user-attachments/assets/9d73b586-289a-4ccb-aed2-c7c7b0eac844" />
+<br>
+<br>
+<img width="1879" height="875" alt="image" src="https://github.com/user-attachments/assets/68583d4b-8b68-46b6-b951-83ff5a63bd8c" />
+<br>
+<br>
+<img width="1872" height="913" alt="image" src="https://github.com/user-attachments/assets/86dcfd6c-d128-4fd3-bc3a-9ea4595e3e72" />
+<br>
+<br>
+<img width="1467" height="912" alt="image" src="https://github.com/user-attachments/assets/fc5ab159-fd10-48eb-b1f2-d89c0d824261" />
 
 
