@@ -1,10 +1,4 @@
-/* ═══════════════════════════════════════════════════════
-   MiniGram – Global Stylesheet
-   Font: Inter (Google Fonts)
-   Palette: Dark premium with gradient accents
-═══════════════════════════════════════════════════════ */
 
-/* ── Reset & Base ─────────────────────────────────────── */
 *,
 *::before,
 *::after {
@@ -288,7 +282,6 @@ button {
   width: 100%;
 }
 
-/* ── Auth Pages ───────────────────────────────────────── */
 .auth-wrapper {
   display: flex;
   justify-content: center;
