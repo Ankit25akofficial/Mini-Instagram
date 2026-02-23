@@ -32,10 +32,8 @@ router.post('/register', async (req, res) => {
         console.error('❌ Register error:', err.message, err.code || '');
         let message;
         if (err.errors) {
-            // Mongoose validation error
             message = Object.values(err.errors).map(e => e.message).join(', ');
         } else if (err.code === 11000) {
-            // MongoDB duplicate key (race condition or index mismatch)
             const field = Object.keys(err.keyPattern || {})[0] || 'field';
             message = `That ${field} is already registered. Please use a different one.`;
         } else {
