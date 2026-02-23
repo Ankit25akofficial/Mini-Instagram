@@ -9,7 +9,6 @@ const upload = require('../middleware/upload');
 
 const POSTS_PER_PAGE = 4;
 
-// GET / – paginated feed
 router.get('/', async (req, res) => {
     try {
         const page = parseInt(req.query.page) || 1;
@@ -36,12 +35,10 @@ router.get('/', async (req, res) => {
     }
 });
 
-// GET /upload – show upload form (auth required)
 router.get('/upload', isLoggedIn, (req, res) => {
     res.render('upload', { title: 'New Post' });
 });
 
-// POST /upload – handle image upload (auth required)
 router.post('/upload', isLoggedIn, (req, res) => {
     upload.single('image')(req, res, async (err) => {
         if (err) {
@@ -50,10 +47,8 @@ router.post('/upload', isLoggedIn, (req, res) => {
         }
 
         try {
-            // Enforce 10-post limit
             const user = await User.findById(req.user._id);
             if (user.postCount >= 10) {
-                // Remove uploaded file if limit exceeded
                 if (req.file) fs.unlinkSync(req.file.path);
                 req.flash('error', 'You have reached the maximum limit of 10 posts.');
                 return res.redirect('/upload');
@@ -70,7 +65,6 @@ router.post('/upload', isLoggedIn, (req, res) => {
             const post = new Post({ caption, imagePath, user: req.user._id });
             await post.save();
 
-            // Increment postCount
             await User.findByIdAndUpdate(req.user._id, { $inc: { postCount: 1 } });
 
             req.flash('success', 'Post uploaded successfully!');
@@ -83,7 +77,6 @@ router.post('/upload', isLoggedIn, (req, res) => {
     });
 });
 
-// GET /post/:id – single post view
 router.get('/post/:id', async (req, res) => {
     try {
         const post = await Post.findById(req.params.id).populate('user', 'username');
@@ -98,7 +91,6 @@ router.get('/post/:id', async (req, res) => {
     }
 });
 
-// GET /post/:id/edit – edit form (owner only)
 router.get('/post/:id/edit', isLoggedIn, async (req, res) => {
     try {
         const post = await Post.findById(req.params.id).populate('user', 'username');
@@ -117,7 +109,6 @@ router.get('/post/:id/edit', isLoggedIn, async (req, res) => {
     }
 });
 
-// POST /post/:id/edit – update caption (owner only)
 router.post('/post/:id/edit', isLoggedIn, async (req, res) => {
     try {
         const post = await Post.findById(req.params.id);
@@ -140,7 +131,6 @@ router.post('/post/:id/edit', isLoggedIn, async (req, res) => {
     }
 });
 
-// POST /post/:id/delete – delete post (owner only)
 router.post('/post/:id/delete', isLoggedIn, async (req, res) => {
     try {
         const post = await Post.findById(req.params.id);
@@ -153,7 +143,6 @@ router.post('/post/:id/delete', isLoggedIn, async (req, res) => {
             return res.redirect('/');
         }
 
-        // Delete image file from disk
         const filePath = path.join(__dirname, '..', 'public', post.imagePath);
         if (fs.existsSync(filePath)) fs.unlinkSync(filePath);
 
